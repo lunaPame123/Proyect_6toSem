@@ -1,0 +1,15 @@
+<form method="POST">
+    {% csrf_token %}
+    {% for pregunta in preguntas %}
+        <fieldset>
+            <legend>{{ pregunta.texto }}</legend>
+            {% for opcion in pregunta.opcion_set.all %}
+                <label>
+                    <input type="radio" name="pregunta_{{ pregunta.id }}" value="{{ opcion.id }}">
+                    {{ opcion.texto }}
+                </label><br>
+            {% endfor %}
+        </fieldset>
+    {% endfor %}
+    <button type="submit">Enviar</button>
+</form>

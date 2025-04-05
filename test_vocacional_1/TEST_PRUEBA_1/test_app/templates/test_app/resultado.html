@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados del Test</title>
+</head>
+<body>
+    <h1>Resultados del Test Vocacional</h1>
+    
+    <!-- Mostrar solo el puntaje obtenido -->
+    <p><strong>Puntaje obtenido: </strong>{{ puntaje_obtenido }}</p>
+
+    <!-- Si hay un resultado relacionado con el puntaje, mostrarlo -->
+    {% if resultado %}
+        <h2>Resultado: {{ resultado.descripcion }}</h2>
+    {% else %}
+        <h2>No se obtuvo un resultado específico para este puntaje.</h2>
+    {% endif %}
+
+    <!-- Botón para regresar al panel de administración -->
+    <a href="/admin/" class="button">Volver al Panel de Administración</a>
+</body>
+</html>
