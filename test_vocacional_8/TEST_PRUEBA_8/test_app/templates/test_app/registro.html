@@ -1,0 +1,17 @@
+
+<form method="POST">
+    {% csrf_token %}
+
+    <!-- Mostrar mensajes de error -->
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: red;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <input type="text" name="username" placeholder="Usuario" required>
+    <input type="password" name="password" placeholder="Contraseña" required>
+    <button type="submit">Registrarse</button>
+</form>
+
+<a href="{% url 'login' %}">¿Ya tienes una cuenta? Inicia sesión</a>

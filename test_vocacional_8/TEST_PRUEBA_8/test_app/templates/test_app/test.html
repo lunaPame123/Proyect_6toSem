@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Vocacional</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let tiempoRestante = {{ tiempo_limite }};  // Tiempo en segundos recibido desde Django
+            
+            function actualizarTemporizador() {
+                let minutos = Math.floor(tiempoRestante / 60);
+                let segundos = tiempoRestante % 60;
+                
+                if (segundos < 10) segundos = "0" + segundos;
+
+                document.getElementById("temporizador").innerText = `Tiempo restante: ${minutos}:${segundos}`;
+
+                if (tiempoRestante <= 0) {
+                    document.getElementById("form-test").submit();  // Envía el formulario automáticamente
+                } else {
+                    tiempoRestante--;
+                    setTimeout(actualizarTemporizador, 1000);
+                }
+            }
+
+            actualizarTemporizador();
+        });
+    </script>
+</head>
+<body>
+    <h1>Test Vocacional</h1>
+    <h2 id="temporizador" style="color: red;">Tiempo restante: --:--</h2>
+
+    <form id="form-test" method="POST">
+        {% csrf_token %}
+        {% for pregunta in preguntas %}
+            <p><strong>{{ pregunta.texto }}</strong></p>
+            {% for opcion in pregunta.opcion_set.all %}
+                <label>
+                    <input type="radio" name="pregunta_{{ pregunta.id }}" value="{{ opcion.id }}">
+                    {{ opcion.texto }}
+                </label><br>
+            {% endfor %}
+        {% endfor %}
+        <br>
+        <button type="submit">Enviar respuestas</button>
+    </form>
+</body>
+</html>
