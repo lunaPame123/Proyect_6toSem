@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Resultados</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            padding: 40px;
+        }
+
+        .historial-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #eaf0f6;
+            margin: 8px 0;
+            padding: 12px 18px;
+            border-radius: 8px;
+            color: #34495e;
+        }
+
+        a {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+            color: #2980b9;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="historial-container">
+        <h1>Historial de Resultados</h1>
+
+        {% if historial %}
+            <ul>
+                {% for resultado in historial %}
+                    <li><strong>{{ resultado.fecha|date:"d/m/Y H:i" }}</strong> — {{ resultado.tipo_ingenieria }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-results">No tienes resultados registrados aún.</p>
+        {% endif %}
+
+        <a href="{% url 'home' %}">← Volver al inicio</a>
+    </div>
+</body>
+</html>

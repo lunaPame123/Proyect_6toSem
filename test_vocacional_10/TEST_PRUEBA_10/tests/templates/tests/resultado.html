@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultado</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Resultado del Test</h1>
+        <p>¡Gracias por completar el test!</p>
+        <p><strong>Según tus respuestas, tu afinidad es con: {{ resultado }}</strong></p>
+        <a href="{% url 'home' %}">Volver al inicio</a>
+    </div>
+</body>
+</html>
