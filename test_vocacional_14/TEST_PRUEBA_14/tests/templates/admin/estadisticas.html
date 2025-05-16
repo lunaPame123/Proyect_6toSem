@@ -1,0 +1,109 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<h1>Estadísticas de Resultados</h1>
+
+<p><strong>Total general:</strong> {{ total_general }}</p>
+
+<table class="adminlist">
+  <thead>
+    <tr>
+      <th>Tipo de Ingeniería</th>
+      <th>Cantidad de Usuarios</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in conteo %}
+    <tr>
+      <td>{{ item.tipo_ingenieria }}</td>
+      <td>{{ item.total }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2 style="margin-top:40px;">Gráfico de Resultados</h2>
+<canvas id="miGrafico" style="max-width:1200px; max-height:600px;"></canvas>
+
+{{ etiquetas|json_script:"etiquetas_data" }}
+{{ datos|json_script:"datos_data" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+<script>
+  const ctx = document.getElementById('miGrafico').getContext('2d');
+
+  const etiquetas = JSON.parse(document.getElementById('etiquetas_data').textContent);
+  const datos = JSON.parse(document.getElementById('datos_data').textContent);
+
+  const backgroundColors = [
+    'rgba(255, 99, 132, 0.5)',
+    'rgba(54, 162, 235, 0.5)',
+    'rgba(255, 206, 86, 0.5)',
+    'rgba(75, 192, 192, 0.5)',
+    'rgba(153, 102, 255, 0.5)',
+    'rgba(255, 159, 64, 0.5)'
+  ];
+
+  const borderColors = backgroundColors.map(color =>
+    color.replace('0.5', '1')
+  );
+
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: etiquetas,
+      datasets: [{
+        label: 'Total por tipo de ingeniería',
+        data: datos,
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      animation: {
+        duration: 1500,
+        easing: 'easeOutBounce'
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: 'Usuarios por tipo de Ingeniería',
+          font: {
+            size: 18
+          }
+        },
+        datalabels: {
+          anchor: 'end',
+          align: 'top',
+          font: {
+            weight: 'bold'
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Tipo de Ingeniería'
+          }
+        },
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Cantidad de Usuarios'
+          }
+        }
+      }
+    },
+    plugins: [ChartDataLabels]
+  });
+</script>
+
+{% endblock %}
