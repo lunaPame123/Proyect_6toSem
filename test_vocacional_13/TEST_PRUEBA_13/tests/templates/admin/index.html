@@ -1,0 +1,12 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+    {{ block.super }}
+
+    <div style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;">
+        <h2>Herramientas administrativas</h2>
+        <ul>
+            <li><a href="{% url 'admin-estadisticas' %}">Ver Estadísticas del Test Vocacional</a></li>
+        </ul>
+    </div>
+{% endblock %}

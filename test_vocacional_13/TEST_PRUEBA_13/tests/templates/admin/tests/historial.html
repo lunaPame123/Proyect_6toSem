@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Definimos la codificación de caracteres para el documento -->
+    <meta charset="UTF-8">
+    <title>Historial de Resultados</title>
+    <!-- Cargamos el archivo CSS utilizando la etiqueta static de Django -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    
+    <!-- Estilos personalizados para la página -->
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif; /* Tipografía para todo el cuerpo */
+            background-color: #f0f2f5; /* Fondo suave */
+            padding: 40px; /* Espaciado alrededor del contenido */
+        }
+
+        .historial-container {
+            max-width: 600px; /* Ancho máximo del contenedor */
+            margin: auto; /* Centrado del contenedor */
+            background: white; /* Fondo blanco para el contenedor */
+            border-radius: 12px; /* Bordes redondeados */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Sombra sutil */
+            padding: 30px; /* Espaciado dentro del contenedor */
+        }
+
+        h1 {
+            text-align: center; /* Centrado del título */
+            color: #2c3e50; /* Color del texto del título */
+            margin-bottom: 25px; /* Espaciado debajo del título */
+        }
+
+        ul {
+            list-style: none; /* Elimina los puntos de la lista */
+            padding: 0; /* Elimina el relleno por defecto */
+        }
+
+        li {
+            background-color: #eaf0f6; /* Fondo suave para los elementos de la lista */
+            margin: 8px 0; /* Espaciado entre los elementos de la lista */
+            padding: 12px 18px; /* Relleno en cada elemento de la lista */
+            border-radius: 8px; /* Bordes redondeados en cada elemento de la lista */
+            color: #34495e; /* Color de texto de los elementos de la lista */
+        }
+
+        a {
+            display: block; /* Hacer el enlace un bloque */
+            margin-top: 30px; /* Espaciado superior */
+            text-align: center; /* Centrar el texto del enlace */
+            color: #2980b9; /* Color del enlace */
+            text-decoration: none; /* Quitar subrayado por defecto */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Subrayar el enlace al pasar el cursor */
+        }
+
+        .no-results {
+            text-align: center; /* Centrar el mensaje si no hay resultados */
+            color: #7f8c8d; /* Color gris para el mensaje */
+        }
+    </style>
+</head>
+<body>
+    <div class="historial-container">
+        <h1>Historial de Resultados</h1>
+
+        <!-- Verificamos si existen resultados en el historial -->
+        {% if historial %}
+            <ul>
+                <!-- Iteramos sobre cada resultado del historial y lo mostramos -->
+                {% for resultado in historial %}
+                    <li>
+                        <!-- Mostramos la fecha del resultado con formato personalizado -->
+                        <strong>{{ resultado.fecha|date:"d/m/Y H:i" }}</strong> — 
+                        <!-- Mostramos el tipo de ingeniería relacionado con el resultado -->
+                        {{ resultado.tipo_ingenieria }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <!-- Si no hay resultados, mostramos un mensaje indicando que no hay resultados registrados -->
+            <p class="no-results">No tienes resultados registrados aún.</p>
+        {% endif %}
+
+        <!-- Enlace para regresar al inicio -->
+        <a href="{% url 'home' %}">← Volver al inicio</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+  <h1>Estadísticas de Resultados</h1>
+  <table class="adminlist">
+    <thead>
+      <tr>
+        <th>Tipo de Ingeniería</th>
+        <th>Cantidad de Usuarios</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in conteo %}
+      <tr>
+        <td>{{ item.tipo_ingenieria }}</td>
+        <td>{{ item.total }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
