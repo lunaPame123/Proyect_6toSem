@@ -1,0 +1,31 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+  {{ block.super }}
+
+  <div style="margin-top: 20px;">
+    <a href="{% url 'estadisticas' %}" class="button" style="
+      display: inline-block;
+      padding: 8px 16px;
+      background-color:rgb(18, 96, 97);
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+    ">
+      Ver Estadísticas de Resultados
+    </a>
+  </div>
+
+  <div style="margin-top: 20px;">
+    <a href="{% url 'ver_logs' %}" class="button" style="
+      display: inline-block;
+      padding: 8px 16px;
+      background-color:rgb(18, 96, 97);
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+    ">
+      Ver Logs del Sistema
+    </a>
+  </div>
+{% endblock %}
