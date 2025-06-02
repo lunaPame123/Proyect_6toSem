@@ -1,0 +1,60 @@
+{% load static %}  {# Carga la etiqueta 'static' para usar archivos estáticos como CSS o sonido #}
+<!DOCTYPE html>
+<html lang="es">  <!-- Define el idioma del documento como español -->
+<head>
+    <meta charset="UTF-8">  <!-- Configura la codificación de caracteres como UTF-8 -->
+    <title>Iniciar Sesión</title>  <!-- Título que aparecerá en la pestaña del navegador -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">  <!-- Enlace al archivo CSS usando ruta estática -->
+</head>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const audio = document.querySelector('audio');  // Selecciona el elemento <audio> en la página
+
+        function playAudio() {
+            audio.play().catch(function(error) {
+                console.log('El navegador bloqueó el autoplay:', error);  // Muestra mensaje si el navegador bloquea el audio
+            });
+            document.removeEventListener('click', playAudio);  // Elimina el evento tras el primer clic
+        }
+        document.addEventListener('click', playAudio);  // Espera a que el usuario haga clic para reproducir el audio
+    });
+</script>
+
+<body>
+    <div class="container mt-5">  <!-- Contenedor principal con margen superior -->
+        <h2 class="mb-4">Iniciar Sesión</h2>  <!-- Encabezado principal -->
+
+        {% if messages %}  {# Verifica si hay mensajes para mostrar (por ejemplo, errores de login) #}
+            <ul>
+                {% for message in messages %}  {# Recorre y muestra cada mensaje #}
+                    <li style="color: red;">{{ message }}</li>  <!-- Muestra mensaje en rojo -->
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="post">  <!-- Formulario que envía datos con método POST -->
+            {% csrf_token %}  {# Token de seguridad contra ataques CSRF #}
+            
+            <div class="mb-3">
+                <label for="username" class="form-label">Usuario</label>  <!-- Etiqueta del campo de usuario -->
+                <input type="text" class="form-control" id="username" name="username" required>  <!-- Campo de entrada -->
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>  <!-- Etiqueta para contraseña -->
+                <input type="password" class="form-control" id="password" name="password" required>  <!-- Campo de contraseña -->
+            </div>
+
+            <button type="submit" class="btn btn-primary">Ingresar</button>  <!-- Botón para enviar el formulario -->
+
+            <div class="mt-3">
+                <p>¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>  <!-- Enlace para registro -->
+            </div>                        
+        </form>
+    </div>
+    <audio id="bienvenida">  <!-- Elemento de audio oculto que se reproducirá al hacer clic -->
+        <source src="{% static 'sounds/bienvenida.mp3' %}" type="audio/mpeg">  <!-- Fuente del archivo de audio -->
+    </audio>    
+</body>
+</html>

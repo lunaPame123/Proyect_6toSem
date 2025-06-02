@@ -1,0 +1,93 @@
+{% extends "admin/base_site.html" %}
+
+{% block extrahead %}
+<style>
+  /* Solo agregamos estilos para hacer la tabla responsiva sin tocar diseño base de Django */
+
+  /* En móviles, convertir filas en bloques para facilitar lectura */
+  @media (max-width: 700px) {
+    table.adminlist, 
+    table.adminlist thead, 
+    table.adminlist tbody, 
+    table.adminlist th, 
+    table.adminlist td, 
+    table.adminlist tr {
+      display: block;
+      width: 100%;
+    }
+
+    table.adminlist td {
+    color: #333; /* Cambia esto por el color que quieras, por ejemplo #1a1a1a, red, etc. */
+    }
+
+    table.adminlist thead tr {
+      /* ocultar cabecera */
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    table.adminlist tbody tr {
+      margin-bottom: 1.5em;
+      border: 1px solid #ddd;
+      padding: 0.5em;
+      border-radius: 5px;
+      background:rgb(150, 246, 238);
+    }
+
+    table.adminlist tbody tr:hover {
+      background:rgb(157, 228, 239);
+    }
+
+    table.adminlist tbody td {
+      border: none;
+      position: relative;
+      padding-left: 50%;
+      white-space: normal;
+      text-align: left;
+      font-weight: normal;
+    }
+
+    table.adminlist tbody td::before {
+      position: absolute;
+      top: 0.5em;
+      left: 0.5em;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      font-weight: 600;
+      content: attr(data-label);
+      color: #555;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>📋 Registros de Auditoría</h1>
+
+<table class="adminlist">
+  <thead>
+    <tr>
+      <th scope="col">Usuario</th>
+      <th scope="col">Acción</th>
+      <th scope="col">Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for log in logs %}
+      <tr>
+        <td data-label="Usuario">{{ log.usuario.username }}</td>
+        <td data-label="Acción">{{ log.accion }}</td>
+        <td data-label="Fecha">{{ log.fecha|date:"d/m/Y H:i:s" }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="3" style="text-align:center; font-style: italic; color:#666;">
+          No hay registros disponibles.
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Definimos la codificación de caracteres para el documento -->
+    <meta charset="UTF-8">
+    <title>Resultado</title>
+    <!-- Cargamos el archivo CSS utilizando la etiqueta static de Django -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Título principal de la página de resultados -->
+        <h1>Resultado del Test</h1>
+        
+        <!-- Mensaje de agradecimiento por completar el test -->
+        <p>¡Gracias por completar el test!</p>
+        
+        <!-- Mostramos el resultado final basado en las respuestas del usuario -->
+        <p><strong>Según tus respuestas, tu afinidad es con: {{ resultado }}</strong></p>
+        
+        <!-- Enlace para volver al inicio (probablemente a la página principal del sitio) -->
+        <a href="{% url 'home' %}">Volver al inicio</a>
+    </div>
+</body>
+</html>

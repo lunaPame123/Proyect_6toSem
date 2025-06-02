@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Definimos la codificación de caracteres para el documento -->
+    <meta charset="UTF-8">
+    <title>Test Vocacional</title>
+    <!-- Cargamos el archivo CSS utilizando la etiqueta static de Django -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Título principal del formulario -->
+        <h1>Test Vocacional</h1>
+        
+        <!-- Formulario que se enviará mediante POST -->
+        <form method="POST">
+            <!-- Se incluye el token CSRF para proteger contra ataques de falsificación de solicitudes -->
+            {% csrf_token %}
+            
+            <!-- Iteramos sobre todas las preguntas disponibles en el contexto -->
+            {% for pregunta in preguntas %}
+                <fieldset>
+                    <!-- Mostrar el texto de la pregunta -->
+                    <legend>{{ pregunta.texto }}</legend>
+                    
+                    <!-- Iteramos sobre las opciones de la pregunta -->
+                    {% for opcion in pregunta.opciones.all %}
+                        <label>
+                            <!-- Se crea un campo de opción de radio para cada opción de respuesta -->
+                            <input type="radio" name="pregunta_{{ pregunta.id }}" value="{{ opcion.id }}" required>
+                            <!-- Mostramos el texto de la opción -->
+                            {{ opcion.texto }}
+                        </label><br>
+                    {% endfor %}
+                </fieldset>
+            {% endfor %}
+            
+            <!-- Botón para enviar el formulario -->
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    <!-- Reproductor de audio que se activa automáticamente al entrar a la página -->
+    <audio id="test10" autoplay>
+        <source src="{% static 'sounds/Pink Soldiers.mp3' %}" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Script para asegurar que el audio se reproduzca tras un clic si el navegador bloquea el autoplay -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {  // Espera que el documento cargue completamente
+            const audio = document.querySelector('audio');  // Selecciona el elemento de audio
+
+            function playAudio() {
+                if (audio) {
+                    audio.play().catch(function(error) {
+                        console.log('El navegador bloqueó el autoplay:', error);  // Mensaje en consola si falla el autoplay
+                    });
+                }
+                document.removeEventListener('click', playAudio);  // Evita múltiples intentos de reproducción
+            }
+
+            document.addEventListener('click', playAudio);  // Intenta reproducir el audio cuando el usuario haga clic
+        });
+    </script>
+</body>
+</html>
+
+
+
